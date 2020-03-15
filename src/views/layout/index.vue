@@ -1,5 +1,27 @@
 <template>
-  <div>公共布局页面</div>
+  <div class="container">
+    <!-- 导航组件 采用vant组件的导航  fixed表示固定在顶部-->
+    <!-- 当页面地址是/user时 应该隐藏 导航行，否则不隐藏 -->
+    <!-- $router.push('/search') 跳转 -->
+    <van-nav-bar @click-right="$router.push('/search')" fixed title="黑马头条" right-text="搜索"  v-if="
+    $route.path!=='/user'"/>
+      <!-- 二级路由容器 -->
+      <!-- 判断当前地址 如果是/user 就给一个noTop class-->
+      <div class="my-wrapper" :class="{noTop:$route.path==='/user'}">
+      <router-view></router-view>
+      </div>
+    <!-- 标签栏组件 route表示 开启路由模式 router:router="true"(布尔)  route="true"(字符串)-->
+    <van-tabbar route>
+      <!-- 点击导航的标签跳转路由 -->
+      <!-- 一旦开启路由模式 van-tabbar-item 就可以当做 router-link 使用-->
+      <!-- router-link  to  -->
+      <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item to="/question" icon="chat-o">问答</van-tabbar-item>
+      <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
+      <van-tabbar-item to="/user" icon="user-o">我的</van-tabbar-item>
+    </van-tabbar>
+
+  </div>
 </template>
 
 <script>
@@ -8,6 +30,21 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+.container{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .my-wrapper{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding-top: 46px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    &.noTop{
+      padding-top: 0;
+    }
+  }
+}
 </style>
