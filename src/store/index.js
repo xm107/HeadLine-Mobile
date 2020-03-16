@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // 专门用来放置需要共享的状态
+    // { token: '', refrshtoken: ''  }  现在还没有设置  预设
     user: auth.getUser() // 就是我们token的信息对象  如果缓存有token 读取换存中的
 
   },
