@@ -1,3 +1,7 @@
+/******
+ *  store 下的index.js 专门处理 vuex中的模块
+ *
+ * *****/
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import { getUser } from '@/utils/auth' // 引入平常对象
@@ -7,7 +11,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     // 专门用来放置需要共享的状态
-    // { token: '', refrshtoken: ''  }  现在还没有设置  预设
+    // { token: '', refresh_token: ''  }  现在还没有设置  预设
     user: auth.getUser() // 就是我们token的信息对象  如果缓存有token 读取换存中的
 
   },
