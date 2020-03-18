@@ -36,8 +36,8 @@ export default {
     return {
       // 表单数据
       loginForm: {
-        mobile: '', // 手机号
-        code: ''// 验证码
+        mobile: '13911111111', // 手机号
+        code: '246810' // 验证码
       },
       // 此对象专门放置消息
       errorMessage: {
@@ -85,9 +85,9 @@ export default {
     // 登陆校验
     async login () {
       // 验证手机号和验证码
-      // this.checkMobile()
-      // this.checkCode()
-      if (this.checkMobile() && this.checkCode()) {
+      const validataMobile = this.checkMobile()
+      const validataCode = this.checkCode()
+      if (validataMobile && validataCode) {
         // 如果两个检查都是true，校验通过
         // 校验通过之后 要去调用接口 看看用户名和密码正确与否
         // axios 但是后端端口不论你成功或者失败 他返回值的状态码是200
@@ -106,9 +106,7 @@ export default {
           this.$router.push(redirectUrl || '/') // 短路表达式
         } catch (error) {
           // 提示消息 提示用户 告诉用户登录失败
-          this.$notify({
-            message: '用户名或者验证码错误', duration: 800
-          })
+          this.$gnotify({ message: '用户名或者验证码错误', duration: 800 })
         }
         // console.log(result) // 打印结果
       }
