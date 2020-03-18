@@ -15,10 +15,10 @@
       <!-- 点击导航的标签跳转路由 -->
       <!-- 一旦开启路由模式 van-tabbar-item 就可以当做 router-link 使用-->
       <!-- router-link  to  -->
-      <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item to="/question" icon="chat-o">问答</van-tabbar-item>
-      <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
-      <van-tabbar-item to="/user" icon="user-o">我的</van-tabbar-item>
+      <van-tabbar-item icon="wap-home-o" to="/">首页</van-tabbar-item>
+        <van-tabbar-item icon="chat-o" to='/question'>问答</van-tabbar-item>
+        <van-tabbar-item icon="tv-o" to="/video">视频</van-tabbar-item>
+        <van-tabbar-item icon="user-circle-o" to="/user">我的</van-tabbar-item>
     </van-tabbar>
 
   </div>
@@ -35,6 +35,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  // 控制二级路由容器的高宽
   .my-wrapper{
     width: 100%;
     height: 100%;
