@@ -29,8 +29,8 @@
 
 <script>
 // import * as user from '@/api/user'y
-// import { login } from '@/api/user'
-// import { mapMutations } from 'vuex'// 辅助函数 可以吧mutations方法银蛇到methods方法中
+import { login } from '@/api/user'// 引入login方法
+import { mapMutations } from 'vuex'// 辅助函数 可以吧mutations方法银蛇到methods方法中
 export default {
   data () {
     return {
@@ -47,6 +47,8 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['updateUser']), // 可以导入的方法 直接把updataUser方法映射到当前的methods方法中
+
     // 定义检查手机号方法
     checkMobile () {
       // 获取手机号 判断 是否为空 满足手机号格式
@@ -79,15 +81,35 @@ export default {
       this.errorMessage.code = ''
       return true
     },
+
     // 登陆校验
-    login () {
+    async login () {
       // 验证手机号和验证码
       // this.checkMobile()
       // this.checkCode()
       if (this.checkMobile() && this.checkCode()) {
         // 如果两个检查都是true，校验通过
-        console.log('通过')
-        // const result = await login(this.loginForm)
+        // 校验通过之后 要去调用接口 看看用户名和密码正确与否
+        // axios 但是后端端口不论你成功或者失败 他返回值的状态码是200
+        try {
+          const result = await login(this.loginForm)
+          // 后端 现在把所有手机号 都认为是成功
+          // console.log(result) // 打印结果
+          // 拿到token之后 应该把token设置vuex中的state
+          // 要去修改vuex中的state必须通过 mutations
+          // this.$store.commit('')  // 原始方式
+          this.updateUser({ user: result }) // 相当于更新当前的token 和 refresh_token
+          // 应该跳转到主页 but 如果此时 你这个登录 是 别人401之后跳转过来的 你就应该回到那个跳转过来的页面
+          // 1 判断是否有需要跳转的页面 如果有 就跳转 如果没有 不用管 直接跳到主页
+          const { redirectUrl } = this.$route.query // query查询参数 也就是 ?后边的参数表
+          // redirectUrl有值的话 跳到该地址 没值的话 跳到 主页
+          this.$router.push(redirectUrl || '/') // 短路表达式
+        } catch (error) {
+          // 提示消息 提示用户 告诉用户登录失败
+          this.$notify({
+            message: '用户名或者验证码错误', duration: 800
+          })
+        }
         // console.log(result) // 打印结果
       }
     }
