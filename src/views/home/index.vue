@@ -5,13 +5,13 @@
       <!-- 内部放置子标签 -->
       <!-- 内部需要放置 子标签 title 值为当前显示的内容 -->
       <van-tab :title="`标签${item}`" v-for="item in 10" :key="item">
-        <!-- 这里注意 这个div设置了滚动条 目的是 给后面做 阅读记忆 留下伏笔 -->
-        <!-- 阅读记忆 => 看文章看到一半 滑到中部 去了别的页面 当你回来时 文章还在你看的位置 -->
-        <div class="scroll-wrapper">
+        <!-- <div class="scroll-wrapper">
           <van-cell-group>
             <van-cell :title="`标题${item}`" value="内容" v-for="item in 20" :key="item"></van-cell>
           </van-cell-group>
-        </div>
+        </div> -->
+        <!-- 有多少个tab就有多少个articles-list实例 -->
+        <ArticleList></ArticleList>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
@@ -21,9 +21,12 @@
 </template>
 
 <script>
+import ArticleList from './components/articles-list'
 export default {
   name: 'Home',
-  components: {}
+  components: {
+    ArticleList
+  }
 }
 </script>
 
