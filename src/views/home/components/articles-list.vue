@@ -11,40 +11,34 @@
       <van-list finished-text="没有啦！" v-model="upLoading" :finished="finished" @load="onLoad">
         <!-- 循环内容 -->
         <van-cell-group>
-          <van-cell v-for="item in articles" :key="item">
+          <!-- item.art_id 此时是一个大数字的对象，v-for的key需要字符串或者数字代理 -->
+          <van-cell v-for="item in articles" :key="item.art_id.toString()">
             <!-- 放置元素 文章列表的循环项  无图 三图 单图 -->
             <!-- 三图 -->
             <div class="article_item">
-              <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
-              <div class="img_box">
-                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+              <!-- 标题 -->
+              <h3 class="van-ellipsis">{{ item.title }}</h3>
+              <!-- 根据当前封面的类型决定显示单图 三图还是无图 -->
+              <!-- 三图 -->
+              <div class="img_box" v-if="item.cover.type ===3">
+                <van-image class="w33" fit="cover" :src="item.cover.images[0]" />
+                <van-image class="w33" fit="cover" :src="item.cover.images[1]" />
+                <van-image class="w33" fit="cover" :src="item.cover.images[2]" />
               </div>
+              <!-- 单图 暂时隐藏单图 -->
+              <div class="img_box" v-if="item.cover.type ===1">
+                <van-image class="w100" fit="cover" :src="item.cover.images[0]" />
+              </div>
+              <!-- 作者信息 -->
               <div class="info_box">
-                <span>你像一阵风</span>
-                <span>8评论</span>
-                <span>10分钟前</span>
+                <span>{{item.aut_name}}</span>
+                <span>{{item.comm_count}}</span>
+                <span>{{item.pubdate}}</span>
                 <span class="close">
                   <van-icon name="cross"></van-icon>
                 </span>
               </div>
-            </div>
-            <!-- 单图 -->
-            <div class="article_item">
-              <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
-              <div class="img_box">
-                <van-image class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
               </div>
-              <div class="info_box">
-                <span>你像一阵风</span>
-                <span>8评论</span>
-                <span>10分钟前</span>
-                <span class="close">
-                  <van-icon name="cross"></van-icon>
-                </span>
-              </div>
-            </div>
           </van-cell>
         </van-cell-group>
       </van-list>
@@ -53,7 +47,7 @@
 </template>
 
 <script>
-
+import { getArticles } from '@/api/articles'
 export default {
   data () {
     return {
@@ -77,23 +71,24 @@ export default {
   },
   methods: {
     // 上拉加载
-    onLoad () {
+    async onLoad () {
       // 如果你的数据已经加载完毕 应该把finished设置为true表示一切结束了 不再请求
       //  此时强制的判断总条数 如果超过100 就直接关闭
       // van-list组件 第一次加载 需要让list 组件出现滚动条 否则没有办法加载
-      if (this.articles.length > 50) {
-        this.finished = true // 关闭加载
-      } else {
-        // 1-60
-        const arr = Array.from(
-          Array(15),
-          (value, index) => this.articles.length + index + 1
-        )
-        // 上拉加载 不是覆盖之前的数据 应该把数据追加到原数组的队尾
-        this.articles.push(...arr)
-        // 添加完数据要手动关掉loading
-        this.upLoading = false
-      }
+      // if (this.articles.length > 50) {
+      //   this.finished = true // 关闭加载
+      // } else {
+      //   // 1-60
+      //   const arr = Array.from(
+      //     Array(15),
+      //     (value, index) => this.articles.length + index + 1
+      //   )
+      //   // 上拉加载 不是覆盖之前的数据 应该把数据追加到原数组的队尾
+      //   this.articles.push(...arr)
+      //   // 添加完数据要手动关掉loading
+      //   this.upLoading = false
+      // }
+
       // 下面这么写 依然不能关掉加载状态 为什么 ? 因为关掉之后  检测机制  高度还是不够 还是会开启
       //   setTimeout(() => {
       //     this.upLoading = false
@@ -103,6 +98,19 @@ export default {
       // setTimeout(() => {
       //   this.finished = true // 表示 数据已经全部加载完毕 没有数据了
       // }, 1000) // 等待一秒 然后关闭加载状态
+      // timestamp: this.timestamp || Date.now()  若有历史时间戳就用它，没有则用当前时间戳
+      const data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() }) // 当前频道id
+      // 获取内容
+      this.articles.push(...data.results) // 追加到队尾
+      this.upLoading = false// 关闭加载状态
+      // 将历史时间戳 给timestamp 但赋值钱要判断 历史时间是否为0
+      // 如果有历史时间戳0 -->说明此时已经没有数据了 应该宣布结束 finished true
+      if (data.pre_timestamp) {
+        // 若有历史时间戳 -->还有数据可以进行加载
+        this.timestamp = data.pre_timestamp
+      } else {
+        this.finished = true
+      }
     },
 
     // 下拉刷新

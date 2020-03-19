@@ -12,8 +12,8 @@
           </van-cell-group>
         </div> -->
         <!-- 有多少个tab就有多少个articles-list实例 -->
-        <!--  -->
-        <ArticleList :channels_id='item.id'></ArticleList>
+         <!-- 需要将频道id传递给每一个列表组件  父 => 子 props -->
+        <ArticleList :channel_id='item.id'></ArticleList>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
@@ -30,6 +30,7 @@ export default {
   components: {
     ArticleList
   },
+  // 组件中为什么data是 返回一个新对象
   data () {
     return {
       channels: [] // 接收频道数据
