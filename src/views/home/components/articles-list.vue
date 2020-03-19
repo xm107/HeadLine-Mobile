@@ -10,9 +10,43 @@
       <!-- van-list组件 如果不加干涉，初始化完毕 就会检测自己距离底部的长度，如果超出了限制，就会执行load事件，自动把绑定的loading 变成true -->
       <van-list finished-text="没有啦！" v-model="upLoading" :finished="finished" @load="onLoad">
         <!-- 循环内容 -->
-         <van-cell-group>
-        <van-cell v-for="item in articles" :key="item" title="徐萌萌" :value="'加油'+item"></van-cell>
-         </van-cell-group>
+        <van-cell-group>
+          <van-cell v-for="item in articles" :key="item">
+            <!-- 放置元素 文章列表的循环项  无图 三图 单图 -->
+            <!-- 三张图 -->
+            <div class="article_item">
+              <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
+              <div class="img_box">
+                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+                <van-image class="w33" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+              </div>
+              <div class="info_box">
+                <span>你像一阵风</span>
+                <span>8评论</span>
+                <span>10分钟前</span>
+                <span class="close">
+                  <van-icon name="cross"></van-icon>
+                </span>
+              </div>
+            </div>
+            <!-- 三张图 -->
+            <div class="article_item">
+              <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
+              <div class="img_box">
+                <van-image class="w100" fit="cover" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+              </div>
+              <div class="info_box">
+                <span>你像一阵风</span>
+                <span>8评论</span>
+                <span>10分钟前</span>
+                <span class="close">
+                  <van-icon name="cross"></van-icon>
+                </span>
+              </div>
+            </div>
+          </van-cell>
+        </van-cell-group>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -39,16 +73,19 @@ export default {
         this.finished = true // 关闭加载
       } else {
         // 1-60
-        const arr = Array.from(Array(15), (value, index) => this.articles.length + index + 1)
+        const arr = Array.from(
+          Array(15),
+          (value, index) => this.articles.length + index + 1
+        )
         // 上拉加载 不是覆盖之前的数据 应该把数据追加到原数组的队尾
         this.articles.push(...arr)
         // 添加完数据要手动关掉loading
         this.upLoading = false
       }
-    // 下面这么写 依然不能关掉加载状态 为什么 ? 因为关掉之后  检测机制  高度还是不够 还是会开启
-    //   setTimeout(() => {
-    //     this.upLoading = false
-    //   }, 1000) // 等待一秒 然后关闭加载状态
+      // 下面这么写 依然不能关掉加载状态 为什么 ? 因为关掉之后  检测机制  高度还是不够 还是会开启
+      //   setTimeout(() => {
+      //     this.upLoading = false
+      //   }, 1000) // 等待一秒 然后关闭加载状态
       // 如果你有数据 你应该 把数据到加到list中
       // 如果想关掉
       // setTimeout(() => {
@@ -59,8 +96,11 @@ export default {
     // 下拉刷新
     onRefresh () {
       setTimeout(() => {
-      // 下拉刷新 表示要读取最新的数据 而且最新的数据要填加到数据头部
-        const arr = Array.from(Array(2), (value, index) => '追加' + (index + 1))
+        // 下拉刷新 表示要读取最新的数据 而且最新的数据要填加到数据头部
+        const arr = Array.from(
+          Array(2),
+          (value, index) => '追加' + (index + 1)
+        )
         // 数组添加到头部
         this.articles.unshift(...arr)
         // 手动关闭正在加载的状态
@@ -72,5 +112,45 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+.article_item {
+  h3 {
+    font-weight: normal;
+    line-height: 2;
+  }
+  .img_box {
+    display: flex;
+    justify-content: space-between;
+    .w33 {
+      width: 33%;
+      height: 90px;
+    }
+    .w100 {
+      width: 100%;
+      height: 180px;
+    }
+  }
+  .info_box {
+    color: #999;
+    line-height: 2;
+    position: relative;
+    font-size: 12px;
+    span {
+      padding-right: 10px;
+      &.close {
+        border: 1px solid #ddd;
+        border-radius: 2px;
+        line-height: 15px;
+        height: 12px;
+        width: 16px;
+        text-align: center;
+        padding-right: 0;
+        font-size: 8px;
+        position: absolute;
+        right: 0;
+        top: 7px;
+      }
+    }
+  }
+}
 </style>
