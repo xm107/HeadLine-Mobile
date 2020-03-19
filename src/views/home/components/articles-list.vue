@@ -98,6 +98,8 @@ export default {
       // setTimeout(() => {
       //   this.finished = true // 表示 数据已经全部加载完毕 没有数据了
       // }, 1000) // 等待一秒 然后关闭加载状态
+
+      await this.$sleep() // 人为控制了请求的时间
       // timestamp: this.timestamp || Date.now()  若有历史时间戳就用它，没有则用当前时间戳
       const data = await getArticles({ channel_id: this.channel_id, timestamp: this.timestamp || Date.now() }) // 当前频道id
       // 获取内容
@@ -114,19 +116,44 @@ export default {
     },
 
     // 下拉刷新
-    onRefresh () {
-      setTimeout(() => {
-        // 下拉刷新 表示要读取最新的数据 而且最新的数据要填加到数据头部
-        const arr = Array.from(
-          Array(2),
-          (value, index) => '追加' + (index + 1)
-        )
-        // 数组添加到头部
-        this.articles.unshift(...arr)
-        // 手动关闭正在加载的状态
-        this.downLoading = false
-        this.successText = `已经为您更新了${arr.length}条数据`
-      }, 1000)
+    async onRefresh () {
+      await this.$sleep() // 人为控制了请求的时间
+      // 下拉刷新应该发送最新的事件戳
+      const data = await getArticles({
+        channel_id: this.channel_id,
+        timestamp: Date.now()// 永远传最新的数据时间戳
+      })
+      // 手动的关闭 下拉刷新的状态
+      this.downLoading = false
+      // 需要判断 最新的时间戳能否换的来数据  若能->把新数据整个替换旧数据 若不能->提示暂时没有新数据
+      if (data.results.length) {
+        // 如果有返回数据
+        // 需要将整个的article替换
+        this.articles = data.results // 历史数据全部被覆盖
+        // 此时 之前的数据全部被覆盖 假如之前把数据拉到了低端 意味着 之前的finished已经true了
+        if (data.pre_timestamp) {
+          //
+          this.finished = false // 重新唤醒列表让列表可以继续上拉下载
+          this.timestamp = data.pre_timestamp // 记录历史时间戳给变量
+        }
+        this.successText = `更新了${data.results.length}条数据`
+      } else {
+        // 如果换不来新数据
+        this.successText = '当前已经是最新了'
+      }
+
+      // setTimeout(() => {
+      //   // 下拉刷新 表示要读取最新的数据 而且最新的数据要填加到数据头部
+      //   const arr = Array.from(
+      //     Array(2),
+      //     (value, index) => '追加' + (index + 1)
+      //   )
+      //   // 数组添加到头部
+      //   this.articles.unshift(...arr)
+      //   // 手动关闭正在加载的状态
+      //   this.downLoading = false
+      //   this.successText = `已经为您更新了${arr.length}条数据`
+      // }, 1000)
     }
   }
 }
