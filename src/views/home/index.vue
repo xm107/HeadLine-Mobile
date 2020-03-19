@@ -12,7 +12,8 @@
           </van-cell-group>
         </div> -->
         <!-- 有多少个tab就有多少个articles-list实例 -->
-        <ArticleList></ArticleList>
+        <!--  -->
+        <ArticleList :channels_id='item.id'></ArticleList>
       </van-tab>
     </van-tabs>
     <span class="bar_btn">
