@@ -29,7 +29,7 @@ export default {
   components: {
     ArticleList
   },
-   data () {
+  data () {
     return {
       channels: [] // 接收频道数据
     }
@@ -43,6 +43,7 @@ export default {
   created () {
     // 直接获取频道数据
     this.getMyChannels()
+  }
 }
 </script>
 
