@@ -13,7 +13,7 @@
         <van-cell-group>
           <van-cell v-for="item in articles" :key="item">
             <!-- 放置元素 文章列表的循环项  无图 三图 单图 -->
-            <!-- 三张图 -->
+            <!-- 三图 -->
             <div class="article_item">
               <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
               <div class="img_box">
@@ -30,7 +30,7 @@
                 </span>
               </div>
             </div>
-            <!-- 三张图 -->
+            <!-- 单图 -->
             <div class="article_item">
               <h3 class="van-ellipsis">PullRefresh下拉刷新PullRefresh下拉刷新下拉刷新下拉刷新</h3>
               <div class="img_box">
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
