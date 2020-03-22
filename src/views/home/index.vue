@@ -119,11 +119,11 @@ export default {
     //     })
     //   }
     // }
-    },
-    created () {
-    // 直接获取频道数据
-      this.getMyChannels()
     }
+  },
+  created () {
+    // 直接获取频道数据
+    this.getMyChannels()
   }
 }
 </script>

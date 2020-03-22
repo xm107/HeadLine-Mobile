@@ -5,6 +5,9 @@
   <!-- 阅读记忆 => 看文章看到一半 滑到中部 去了别的页面 当你回来时 文章还在你看的位置 -->
   <div class="scroll-wrapper">
     <!-- 文章列表 -->
+     <!-- van-list组件 如果不加干涉, 初始化完毕 就会检测 自己距离底部的长度,如果超过了限定 ,就会执行 load事件  自动把
+       绑定的 loading 变成true
+    -->
     <!-- 下拉刷新组件 -->
     <van-pull-refresh v-model="downLoading" @refresh="onRefresh" :success-text="successText">
       <!-- van-list组件 如果不加干涉，初始化完毕 就会检测自己距离底部的长度，如果超出了限制，就会执行load事件，自动把绑定的loading 变成true -->
@@ -41,7 +44,7 @@
                 <!-- <span class="close" v-if="$store.state.user.token"> -->
                <!-- 辅助函数的形式 -->
                <!-- @事件名="逻辑处理"  点击事件中触发一个 显示反馈的事件 传出 点击的文章id-->
-               <span @click="$emit('showAction', item.art_id.toString())" class="close" v-if="user.token">
+               <span @click="$emit('showAction')" class="close" v-if="user.token">
                   <van-icon name="cross"></van-icon>
                 </span>
               </div>
