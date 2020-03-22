@@ -42,7 +42,6 @@
            @selectChannel="selectChannel"
             :channels="channels"  ></ChannelEdit>
       </van-action-sheet>
-      selectChannel
   </div>
 </template>
 
