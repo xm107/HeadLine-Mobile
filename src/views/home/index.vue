@@ -18,6 +18,7 @@
              <ArticleList  @showAction="openAction" :channel_id="item.id"></ArticleList>
       </van-tab>
     </van-tabs>
+    <!-- 在tabs下放入图标 编辑频道的图标 注册点击事件（简单逻辑） -->
     <span class="bar_btn"  @click="showChannelEdit = true">
       <van-icon name="wap-nav" />
     </span>
@@ -31,6 +32,7 @@
         <MoreAction @dislike="dislikeOrReport('dislike')" @report="dislikeOrReport('report',$event)" />
       </van-popup>
       <!-- 频道编辑组件 放在 弹出面板的组件 -->
+      <!-- round属性去圆角 -->
       <van-action-sheet :round="false" v-model="showChannelEdit" title="编辑频道">
           <!-- 放置频道编辑组件 -->
           <!-- 此时将父组件的数据 传递给了 子组件 -->
@@ -129,6 +131,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
 // 处理弹出编辑面板的样式
 .van-action-sheet {
   max-height: 100%;
