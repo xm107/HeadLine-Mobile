@@ -39,7 +39,6 @@ export default {
 }
 </script>
 
-<style>
 <style lang='less' scoped>
 .history-box {
   padding: 0 20px;
