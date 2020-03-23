@@ -38,3 +38,13 @@ export function reportArticle (data) {
     method: 'post'
   })
 }
+/***
+ * 获取联想搜索记忆
+ *
+ * ****/
+export function getSuggestion (params) {
+  return request({
+    url: '/suggestion', // 搜索建议地址
+    params // query参数放置在params中
+  })
+}

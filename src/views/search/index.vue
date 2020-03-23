@@ -48,6 +48,12 @@ export default {
       historyList: JSON.parse(localStorage.getItem(key) || '[]') // 作为一个数据接收历史数据
     }
   },
+  watch: {
+    q () {
+      // 我们要在这个位置 去请求接口
+      console.log(this.q)
+    }
+  },
   methods: {
     // 删除历史
     delHistory (index) {
