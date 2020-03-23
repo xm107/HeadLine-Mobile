@@ -7,8 +7,9 @@
      <van-search @search="onSearch"  v-model.trim="q" placeholder="请输入搜索关键词" shape="round" />
     <!-- 联想内容  有输入内容时 显示联想 -->
     <van-cell-group class="suggest-box" v-if="q" >
-      <van-cell icon="search" v-for="(item,index) in suggestList" :key="index">
-        {{item}}
+      <!-- 循环的搜索建议 -->
+      <van-cell @click="toResult(item)" icon="search" v-for="(item,index) in suggestList" :key="index">
+         {{ item  }}
       </van-cell>
     </van-cell-group>
     <!-- 历史记录部分  你搜索的内容 会在这里记录 -->
@@ -107,7 +108,7 @@ export default {
     //   this.$router.push({ path: '/search/result', query: { q: text } })
     // },
     // 到结果页
-    toRusult (text) {
+    toResult (text) {
       // 应该也把这个text 放在历史记录中
       this.historyList.push(text) // 加到历史记录
       // 有可能重复
@@ -116,6 +117,8 @@ export default {
       localStorage.setItem(key, JSON.stringify(this.historyList))// 历史记录设置到缓存中
       // 将数据同步到本地缓存
       localStorage.setItem(key, JSON.stringify(this.historyList))
+      // 跳转到搜索结果
+      this.$router.push({ path: '/search/result', query: { q: text } })
     },
     // 清空历史记录
     async clear () {
