@@ -39,7 +39,7 @@ import { getArticleInfo } from '@/api/articles'
 import { followUser, unfollowUser } from '@/api/user'
 import Comment from './components/comment'// 引入评论组件
 export default {
-  comments: {
+  components: {
     Comment
   },
   data  () {
