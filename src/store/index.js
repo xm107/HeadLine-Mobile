@@ -12,7 +12,8 @@ export default new Vuex.Store({
   state: {
     // 专门用来放置需要共享的状态
     // { token: '', refresh_token: ''  }  现在还没有设置  预设
-    user: auth.getUser() // 就是我们token的信息对象  如果缓存有token 读取换存中的
+    user: auth.getUser(), // 就是我们的token信息的对象 如果你要做持久化 如果缓存有token 读取缓存的token
+    photo: null // 用户头像
 
   },
   mutations: {
@@ -21,6 +22,10 @@ export default new Vuex.Store({
       state.user = payload.user // 定义载荷中的user数据给state
       // 更新vuex的时候也应该 将最新的数据存入本地缓存
       auth.setUser(payload.user) // 相当于 保持vuex 和本地存储的同步
+    },
+    // 更新photo
+    updatePhoto (state, payload) {
+      state.photo = payload.photo // 在载荷中传入photo
     },
 
     // 删除token
