@@ -8,7 +8,11 @@
       <!-- 二级路由容器 -->
       <!-- 判断当前地址 如果是/user 就给一个noTop class-->
       <div class="my-wrapper" :class="{noTop:$route.path==='/user'}">
-      <router-view></router-view>
+       <!-- 直接缓存二级路由容器  直接使用keep-alive组件包裹 容器 -->
+    <keep-alive>
+      <!-- 一旦被包裹 路由容器里的组件就不会被销毁  -->
+       <router-view></router-view>
+    </keep-alive>
       </div>
     <!-- 标签栏组件 route表示 开启路由模式 router:router="true"(布尔)  route="true"(字符串)-->
     <van-tabbar route>
