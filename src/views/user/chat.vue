@@ -1,30 +1,36 @@
 <template>
- <div class="container">
+  <div class="container">
     <van-nav-bar fixed left-arrow @click-left="$router.back()" title="小智同学"></van-nav-bar>
     <div class="chat-list" ref="myList">
-       <!-- 接下来 把list消息循环渲染到视图上 -->
+      <!-- 接下来 把list消息循环渲染到视图上 -->
       <!-- 认为 小智同学说的话 在左边  我说的话 在右边 -->
       <!-- name : xz  => 小智 左边  name !=xz  => 我  => 右边-->
-      <div class="chat-item" :class="{left: item.name === 'xz', right: item.name!=='xz'}" v-for="(item,index) in list" :key="index">
+      <div
+        class="chat-item"
+        :class="{left: item.name === 'xz', right: item.name!=='xz'}"
+        v-for="(item,index) in list"
+        :key="index"
+      >
         <!-- 如果是小智说的 头像应该在左边 -->
         <van-image v-if="item.name==='xz'" fit="cover" round :src="XZImg" />
         <!-- 内容 -->
         <div class="chat-pao">{{ item.msg }}</div>
         <!-- 如果不等于小智 头像右边 -->
-        <van-image v-if="item.name!=='xz'"  fit="cover" round :src="photo" />
+        <van-image v-if="item.name!=='xz'" fit="cover" round :src="photo" />
       </div>
       <!-- <div class="chat-item right">
         <div class="chat-pao">ewqewq</div>
         <van-image  fit="cover" round  :src="photo />
-      </div> -->
+      </div>-->
     </div>
     <div class="reply-container van-hairline--top">
-       <!-- 去前后空格 -->
+      <!-- 去前后空格 -->
       <van-field v-model.trim="value" placeholder="说点什么...">
         <van-loading v-if="loading" slot="button" type="spinner" size="16px"></van-loading>
         <span v-else @click="send()" slot="button" style="font-size:12px;color:#999">提交</span>
       </van-field>
-        </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -130,19 +136,19 @@ export default {
   left: 0;
   top: 0;
   box-sizing: border-box;
-  background:#fafafa;
+  background: #fafafa;
   padding: 46px 0 50px 0;
   .chat-list {
     height: 100%;
     overflow-y: scroll;
-    .chat-item{
+    .chat-item {
       padding: 10px;
-      .van-image{
+      .van-image {
         vertical-align: top;
         width: 40px;
         height: 40px;
       }
-      .chat-pao{
+      .chat-pao {
         vertical-align: top;
         display: inline-block;
         min-width: 40px;
@@ -157,37 +163,37 @@ export default {
         word-break: break-all;
         font-size: 14px;
         color: #333;
-        &::before{
+        &::before {
           content: "";
           width: 10px;
           height: 10px;
           position: absolute;
           top: 12px;
-          border-top:0.5px solid #c2d9ea;
-          border-right:0.5px solid #c2d9ea;
+          border-top: 0.5px solid #c2d9ea;
+          border-right: 0.5px solid #c2d9ea;
           background: #e0effb;
         }
       }
     }
   }
 }
-.chat-item.right{
+.chat-item.right {
   text-align: right;
-  .chat-pao{
+  .chat-pao {
     margin-left: 0;
     margin-right: 15px;
-    &::before{
+    &::before {
       right: -6px;
       transform: rotate(45deg);
     }
   }
 }
-.chat-item.left{
+.chat-item.left {
   text-align: left;
-  .chat-pao{
+  .chat-pao {
     margin-left: 15px;
     margin-right: 0;
-    &::before{
+    &::before {
       left: -5px;
       transform: rotate(-135deg);
     }
@@ -202,5 +208,4 @@ export default {
   background: #f5f5f5;
   z-index: 9999;
 }
-
 </style>
