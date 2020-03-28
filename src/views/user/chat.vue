@@ -29,7 +29,7 @@
 
 <script>
 import Vue from 'vue'
-import XZImg from '@/assets/head.jpg' // 引入一张图片
+import XZImg from '@/assets/xz.jpg' // 引入一张图片
 import { mapState } from 'vuex' // vuex辅助函数
 import io from 'socket.io-client' // 引入socke.io的客户端
 export default {
