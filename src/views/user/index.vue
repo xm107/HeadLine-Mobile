@@ -49,13 +49,13 @@
 import { getUserInfo } from '@/api/user'
 import { mapMutations } from 'vuex'
 export default {
-  ...mapMutations(['delUser']), // 引入mutations方法
   data () {
     return {
       userInfo: {}
     }
   },
   methods: {
+    ...mapMutations(['delUser', 'updatePhoto']), // 引入mutations方法
     // 获取用户的个人信息
     async getUserInfo () {
       this.userInfo = await getUserInfo()

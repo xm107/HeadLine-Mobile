@@ -25,11 +25,11 @@ const instance = axios.create({
 instance.interceptors.request.use(function (config) {
   // 成功的时候 如何处理
   // 读取配置信息 给配置信息中注入token
-  // if (store.state.user.token) {
-  //   config.headers.Authorization = `Bearer ${store.state.user.token}` // 将token 统一注入到headers中
-  // }
+  if (store.state.user.token) {
+    config.headers.Authorization = `Bearer ${store.state.user.token}` // 将token 统一注入到headers中
+  }
   // 不用 if else的用法
-  config.headers.Authorization && (config.headers.Authorization = `Bearer ${store.state.user.token}`) // 将token 统一注入到headers中
+  // config.headers.Authorization && (config.headers.Authorization = `Bearer ${store.state.user.token}`) // 将token 统一注入到headers中
   return config // 返回配置
 }, function (error) {
   // 直接返回 promise的错误
