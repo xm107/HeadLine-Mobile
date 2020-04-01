@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+    <div class="container">
     <van-nav-bar left-arrow @click-left="$router.back()" @click-right="saveUser" title="编辑资料" right-text="保存" ></van-nav-bar>
     <van-cell-group>
       <van-cell is-link title="头像"  center>
@@ -9,12 +9,12 @@
           height="1.5rem"
           fit="cover"
           round
-           @click="showPhoto=true"
-           :src="user.photo"
+          @click="showPhoto=true"
+          :src="user.photo"
         />
       </van-cell>
       <van-cell is-link title="名称" @click="showName= true" :value="user.name" />
-        <van-cell is-link title="性别" @click="showGender = true" :value="user.gender === 0 ? '男' : '女' "/>
+      <van-cell is-link title="性别" @click="showGender = true" :value="user.gender === 0 ? '男' : '女' "/>
       <van-cell is-link title="生日" @click="showDate" :value="user.birthday" />
     </van-cell-group>
     <!-- 放置 头像弹层 -->
@@ -35,7 +35,7 @@
        <!-- 放置一个按钮 用来确定关闭弹层 -->
        <van-button block type="info" size='normal' @click="btnName" >确定</van-button>
     </van-popup>
-      <!-- 性别弹层  注册性别弹层的选择事件-->
+    <!-- 性别弹层  注册性别弹层的选择事件-->
     <van-action-sheet @select="selectItem" :actions="actions" v-model="showGender" cancel-text="取消"></van-action-sheet>
     <!-- 生日弹层 -->
     <van-popup v-model="showBirthDay" position="bottom">
@@ -46,15 +46,15 @@
            type="date"
           :min-date="minDate"
           :max-date="maxDate"
-            @confirm="confirmDate"
+          @confirm="confirmDate"
           @cancel="showBirthDay=false"
          />
     </van-popup>
-      <!-- 放置一个input:file 标签 用来上传图片  不能让人看到 隐藏掉 -->
+    <!-- 放置一个input:file 标签 用来上传图片  不能让人看到 隐藏掉 -->
     <!-- vue中 可以通过 ref获取对象 -->
     <!-- 如果选择了文件 就会触发input change事件 -->
     <input @change="upload" ref="myFile" type="file" style="display:none" name="" id="">
-    </div>
+  </div>
 </template>
 
 <script>
@@ -93,17 +93,14 @@ export default {
         this.$gnotify({ message: '保存失败' })
       }
     },
-
     // 打开选择文件的对话框 触发点击input:file的动作
     openFileDialog () {
       this.$refs.myFile.click() // 触发input:file的click事件 触发事件就会弹出文件对话框
     },
-
     // 封装方法
     async  getUserProfile () {
       this.user = await getUserProfile()
     },
-
     btnName () {
       // 关闭弹层
       if (this.user.name.length < 1 || this.user.name.length > 7) {
@@ -151,7 +148,6 @@ export default {
   }
 }
 </script>
-
 <style>
 
 </style>

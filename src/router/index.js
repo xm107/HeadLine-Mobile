@@ -24,7 +24,8 @@ const routes = [
     children: [
       {
         path: '', // 如果path什么都不写，默认是二级路由的默认组件
-        component: home
+        component: home,
+        meta: { islive: true }
       }, {
         path: '/question',
         component: question // 问答组件
@@ -43,7 +44,7 @@ const routes = [
     path: '/login',
     component: login // 登录组件
   }, {
-    path: '/profile',
+    path: '/user/profile',
     component: profile // 编辑资料组件
   }, {
     path: '/search',
